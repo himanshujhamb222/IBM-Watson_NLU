@@ -23,7 +23,7 @@ response = ""
 s=""
 count=0
 print("Watson review  products ..hahaha\n")
-for i in range(304,len(table)-3):   
+for i in range(0,len(table)-3):   
 	 response = natural_language_understanding.analyze(text=table[i],features=[features.Sentiment()])
 	 s=json.dumps(response)
 	 data=json.loads(s)
