@@ -16,13 +16,13 @@ for x in range(total_rows):
 ##for i in range(123,len(table)):
 
 natural_language_understanding = NaturalLanguageUnderstandingV1(
-    version='2017-02-27',
-    username="d145642f-5637-4fb5-938a-5f3290ddf947",
-    password='TTZO6Fv0oKQz')
+    version='version-date',
+    username="username",
+    password='password')
 response = ""
 s=""
 count=0
-print("Watson review  products ..hahaha\n")
+print("Watson review  products")
 for i in range(0,len(table)-3):   
 	 response = natural_language_understanding.analyze(text=table[i],features=[features.Sentiment()])
 	 s=json.dumps(response)
