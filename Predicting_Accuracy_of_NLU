@@ -1,0 +1,59 @@
+import xlrd
+import json
+from watson_developer_cloud import NaturalLanguageUnderstandingV1
+import watson_developer_cloud.natural_language_understanding.features.v1 as \
+    features
+import sklearn
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+workbook=xlrd.open_workbook("test_data.xlsx")
+worksheet=workbook.sheet_by_index(0)
+total_rows=worksheet.nrows
+table=list()
+watson_pred=list()
+actual_pred=list()
+print(total_rows)
+for x in range(3,6):
+        table.append(worksheet.cell(x,7).value)
+
+for x in range(3,6):
+        actual_pred.append(int(float(worksheet.cell(x,6).value)))  
+##for i in range(123,len(table)):
+#print(table)
+print(actual_pred)
+print('\n')
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version='xxx',
+    username='xxx',
+    password='xxx')
+response = ""
+s=""
+count=0
+print("Watson review  products ..hahaha\n")
+
+for i in range(3,6):
+     response = natural_language_understanding.analyze(text=table[i],features=[features.Sentiment()])
+     s=json.dumps(response)
+     data=json.loads(s)
+     print(table[i])
+     print('\n')
+     print(data)
+     if(data['sentiment']['document']['score'])<0.0:
+             watson_pred.append(-1)
+             
+     elif(data['sentiment']['document']['score'])==0.0:
+            watson_pred.append(0)
+            
+     elif(data['sentiment']['document']['score'])>0.0:
+            watson_pred.append(1)
+     print(i,count)
+     print('\n')
+     print(watson_pred)
+     print(actual_pred)
+     
+print(watson_pred)
+print(actual_pred)
+confusion_matrix(watson_pred, actual_pred)
+accuracy_score(watson_pred, actual_pred)
+
+
